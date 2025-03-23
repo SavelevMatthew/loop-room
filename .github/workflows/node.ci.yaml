@@ -50,8 +50,13 @@ jobs:
       - name: Run dependencies audit
         run: pnpm i --frozen-lockfile
 
-      - name: Audit dependencies
+      - name: Build application
         run: pnpm build
+
+      - name: Check migrations
+        run: |
+          docker compose up -d
+          pnpm migrate
 
   deps-audit:
     name: Audit dependencies
