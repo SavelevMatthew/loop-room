@@ -20,10 +20,47 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn --immutable
 
       - name: Lint source code
         run: yarn lint
+
+  deps-audit:
+    name: Audit dependencies
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+
+      - name: Run dependencies audit
+        run: yarn --immutable
+
+      - name: Lint source code
+        run: yarn npm audit --all
+
+  semgrep:
+    name: Audit source code
+    runs-on: ubuntu-22.04
+    container:
+      image: semgrep/semgrep
+
+    if: (github.actor != 'dependabot[bot]')
+
+    permissions:
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run semgrep scan
+        run: ./bin/run-semgrep.sh
