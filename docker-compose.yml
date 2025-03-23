@@ -13,6 +13,9 @@ services:
       - '5430:5432'
     volumes:
       - ./pgdata:/var/lib/postgresql/data/pgdata
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
     deploy:
       resources:
         limits:

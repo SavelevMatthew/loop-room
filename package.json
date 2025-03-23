@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "makemigrations": "npx prisma migrate dev",
+    "migrate": "npx prisma migrate deploy",
     "lint": "prettier . --check && eslint ."
   },
   "dependencies": {
