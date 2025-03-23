@@ -11,11 +11,12 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
       - '5430:5432'
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data/pgdata
     security_opt:
       - no-new-privileges:true
     read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
     deploy:
       resources:
         limits:
