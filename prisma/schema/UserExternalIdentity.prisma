@@ -1,0 +1,15 @@
+enum IdentityProvider {
+  GitHub
+}
+
+model UserExternalIdentity {
+  id         String           @id @default(cuid(2))
+  provider   IdentityProvider
+  identityId String
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+  userId     String
+  user       User             @relation(fields: [userId], references: [id])
+
+  @@unique([provider, identityId])
+}
