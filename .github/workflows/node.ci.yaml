@@ -50,7 +50,7 @@ jobs:
       - name: Run dependencies audit
         run: pnpm i --frozen-lockfile
 
-      - name: Lint source code
+      - name: Audit dependencies
         run: pnpm audit
 
   semgrep:
