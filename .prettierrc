@@ -5,7 +5,7 @@
     "semi": false,
     "overrides": [
         {
-            "files": "*.{css,json}",
+            "files": "*.{css,json,yaml,yml}",
             "options": {
                 "tabWidth": 2
             }

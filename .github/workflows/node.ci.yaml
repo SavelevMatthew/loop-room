@@ -1,0 +1,72 @@
+name: loop-room CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint code
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Lint source code
+        run: pnpm lint
+
+  deps-audit:
+    name: Audit dependencies
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+
+      - name: Run dependencies audit
+        run: pnpm i --frozen-lockfile
+
+      - name: Audit dependencies
+        run: pnpm audit
+
+  semgrep:
+    name: Audit source code
+    runs-on: ubuntu-22.04
+    container:
+      image: semgrep/semgrep
+
+    if: (github.actor != 'dependabot[bot]')
+
+    permissions:
+      security-events: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run semgrep scan
+        run: ./bin/run-semgrep.sh
