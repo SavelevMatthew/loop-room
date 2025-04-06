@@ -8,7 +8,8 @@
     "start": "next start",
     "makemigrations": "npx prisma migrate dev",
     "migrate": "npx prisma migrate deploy",
-    "lint": "prettier . --check && eslint ."
+    "lint": "prettier . --check && eslint .",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "6.5.0",
